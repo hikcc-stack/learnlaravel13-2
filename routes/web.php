@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController; /* Подключение контро�
 use App\Http\Controllers\TestController; /* Подключение контроллера */
 
 // codemu
+//15
 Route::get('/', function () {
     return view('!!!');
 });
@@ -18,6 +19,231 @@ Route::get('/about', function () {
 Route::get('/posts', function () {
     return 'posts list';
 });
+Route::get('/test', function () {
+    return 'test page';
+});
+Route::get('/dir/test', function () {
+    return 'dir test page';
+});
+Route::get('/contacts', function () {
+    return 'contacts page';
+});
+//16
+Route::get('/post/{id}', function ($id) {
+    return 'post' . $id;
+});
+
+Route::get('/user/{id}', function ($id) {
+    return 'user' . ' ' . $id;
+});
+Route::get('/post/{name}', function ($name) {
+    return 'post' . ' '. $name;
+});
+Route::get('/city/{name}', function ($name) {
+    return 'city' . ' '. $name;
+});
+//17
+Route::get('/post/{catId}/{postId}', function ($catId, $postId) {
+    return $catId . ' ' . $postId;
+});
+
+Route::get('/user/{name}/{surname}', function ($name, $surname) {
+    return $name . ' ' . $surname;
+});
+
+Route::get('/city/{country}/{name}', function ($country, $name) {
+    return $country . ' ' . $name;
+});
+Route::get('/post/{id}/comment/{num}', function ($id, $num) {
+    return 'post' . ' ' . $id . ' '. 'comment' . ' '. $num;
+});
+//18
+Route::get('/posts/page/{page?}', function ($page = 1) {
+    return 'page number ' . $page;
+});
+Route::get('/city/{city?}', function ($city = 'minsk') {
+    return 'city:' . $city;
+});
+Route::get('/page/{num?}', function ($num = 1) {
+    return 'page number ' . $num;
+});
+//19
+Route::get('/post/{id}', function ($id) {
+    return 'post ' . $id;
+})->where('id', '[0-9]+');
+Route::get('/user/{id}', function ($id) {
+    return 'user ' . $id;
+})->where('id', '[0-9]+');
+Route::get('/product/{code}', function ($code) {
+    return 'product ' . $code;
+})->where('code', '[0-4]');
+//20
+Route::get('/post/{slug}/{id}', function ($slug, $id) {
+    return 'post ' . $slug . ' ' . $id;
+})->where('slug', '[a-z0-9_-]+')->where('id', '[0-9]+');
+Route::get('/post/{slug}/{id}', function ($slug, $id) {
+    return 'post ' . $slug . ' ' . $id;
+})->where([
+    'slug' => '[a-z0-9_-]+',
+    'id'=> '[0-9]+',
+]);
+
+Route::get('/user/{id}/{name}', function ($id, $name) {
+    return 'user ' . $id . ' ' . $name;
+})->where([
+    'id' => '[0-9]+',
+    'name' => '[a-z]',
+]);
+
+Route::get('/posts/{date}', function ($date) {
+    return 'date: ' . $date;
+})->where('date', '[0-9]{4}-[0-9]{2}-[0-9]{2}');
+
+Route::get('/posts/{year}/{month}/{day}', function ($year, $month, $day) {
+    return 'date: ' . $year . '-' . $month . '-' . $day;
+})->where('year', '[0-9]{4}')->where('month', '[0-9]{2}') ->where( 'day',  '[0-9]{2}');
+
+Route::get('/users/{order}', function ($order) {
+    return 'users ' . $order;
+})->where([
+    'order' => 'name', 'surname', 'age'
+]);
+Route::get('/product/{code}', function ($code) {
+    return 'product ' . $code;
+})->where('code', '[0-4]');
+
+//21
+Route::get('/post/{id}', function ($id) {
+    return 'post ' . $id;
+})->whereNumber('id');
+
+Route::get('/post/{slug}', function ($slug) {
+    return 'post ' . $slug;
+})->whereAlpha('slug');
+
+Route::get('/post/{slug}', function ($slug) {
+    return 'post ' . $slug;
+})->whereAlphaNumeric('slug');
+
+Route::get('/users/{order}', function ($order) {
+    return 'sort: ' . $order;
+})->whereIn('order', ['name', 'surname', 'age']);
+
+Route::get('/user/{id}', function ($id) {
+    return 'user: ' . $id;
+})->whereNumber('id');
+
+Route::get('/city/{name}', function ($name) {
+    return 'city: ' . $name;
+})->whereAlpha('name');
+
+Route::get('/tag/{slug}', function ($slug) {
+    return 'tag: ' . $slug;
+})->whereAlphaNumeric('slug');
+
+Route::get('/users/{order}', function ($order) {
+    return 'sort: ' . $order;
+})->whereIn('order', ['name', 'surname', 'age']);
+
+//22
+class AppServiceProvider extends ServiceProvider {
+    public function boot(): void{
+        Route::pattern('id', '[0-9]+');
+        Route::pattern('slug', '[a-z0-9_-]+');
+    }
+
+}
+Route::get('/post/{id}', function () {
+    return '!!!'; // only numeric
+});
+//23
+Route::get('/post/all', function () {
+    return 'all';
+})->whereNumber('id');
+Route::get('/post/{id}', function ($id) {
+    return 'id';
+});
+
+Route::get('/user/all', function () {
+    return 'all';
+});
+
+Route::get('/user/{id}', function ($id) {
+    return 'id';
+});
+
+
+Route::get('/page/about', function () {
+    return 'about';
+});
+
+Route::get('/page/{num}', function ($num) {
+    return 'num';
+})->whereNumber('num');
+
+Route::get('/page', function () {
+    return 'page';
+});
+
+
+Route::get('/user/all', function () {
+    return 'all';
+});
+
+Route::get('/user', function () {
+    return 'user';
+});
+
+Route::get('/user/{id?}', function ($id = null) {
+    return 'id';
+});
+
+
+Route::get('/user/all/desc', function () {
+    return 'all desc';
+});
+
+Route::get('/user/all', function () {
+    return 'all';
+});
+
+Route::get('/user/{name}/{id?}', function ($name, $id = null) {
+    return 'name id';
+});
+
+
+//24
+Route::prefix('blog')->group(function () {
+    Route::prefix('post')->group(function () {
+        return 'all';
+    });
+    Route::get('/post/{id}', function ($id) {
+        return $id;
+    });
+});
+
+
+Route::prefix('admin')->group(function () {
+    Route::prefix('user')->group(function () {
+        return 'all';
+    });
+    Route::get('/{id}', function ($id) {
+        return $id;
+    });
+});
+
+Route::prefix('shop')->group(function () {
+    Route::prefix('product')->group(function () {
+        Route::prefix('category')->group(function () {
+            return 'all';
+        });
+    });
+    Route::get('/{id}', function ($id) {
+        return $id;
+    });
+});
+
+
 
 
 
