@@ -5,7 +5,11 @@ use Illuminate\Support\ServiceProvider; /* Глобальное ограниче
 use App\Http\Controllers\PostController; /* Подключение контроллера */
 use App\Http\Controllers\TestController; /* Подключение контроллера */
 
+
 // codemu
+
+//47-72
+Route::get('/array', [PostController::class, 'showpost']);
 //15
 Route::get('/', function () {
     return view('!!!');
@@ -247,8 +251,7 @@ Route::prefix('shop')->group(function () {
 
 
 
-
-Route::get('/newpost', [PostController::class, 'show']); // Сокращенная запись обращения к контроллеру
+Route::get('/newpost', [PostController::class, 'show']);  // Сокращенная запись обращения к контроллеру
 Route::get('/newposts', [PostController::class, 'all']); // Обращение ко второму методу контроллера
 Route::get('/longpost', [\App\Http\Controllers\Controller::class, '#']); // Удлиненная запись
 

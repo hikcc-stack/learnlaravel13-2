@@ -15,5 +15,7 @@
         </x-slot:title>
         <p>Контент страницы</p>
     </x-layout>
+
+
 </body>
 </html>
