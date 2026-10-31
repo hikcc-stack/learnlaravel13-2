@@ -4,8 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider; /* Глобальное ограничение */
 use App\Http\Controllers\PostController; /* Подключение контроллера */
 use App\Http\Controllers\TestController; /* Подключение контроллера */
+use App\Http\Controllers\RequestController;
 
 
+ Route::get('/migration', [RequestController::class, 'show']);
+Route::get('/migrate', function () {
+    return view('migrate');
+});
 // codemu
 
 //47-72

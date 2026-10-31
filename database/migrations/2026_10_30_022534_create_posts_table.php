@@ -12,6 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('slug');
+            $table->text('text');
+            $table->integer('likes');
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
+            $table->foreignId('category_id');
+            /*
             $table->integer('age')
                 ->unsigned()
                 ->default(1)
@@ -22,6 +31,7 @@ return new class extends Migration
             $table->string('title', 100)->change();
 
             $table->renameColumn('age', 'vozrast'); //  переименование поля
+            */
 
 //            $table->id();
 //            $table->string('name');
@@ -35,10 +45,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        /*
         Schema::create('', function (Blueprint $table) {
             $table->renameColumn('vozrast', 'age'); // возвращение названия
         });
-
+        */
         Schema::dropIfExists('posts');
     }
 };

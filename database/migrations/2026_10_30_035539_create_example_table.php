@@ -43,6 +43,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        return;
         Schema::create('example', function (Blueprint $table) {
             $table->id(); // AUTO_INCREMENT UNSIGNED BIGINT(primary key)
 
@@ -116,6 +117,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        return;
         // удалить, если существует таблица с данными именем
         Schema::dropIfExists('example');
     }

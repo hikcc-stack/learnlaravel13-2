@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->string('surname', 32);
+            $table->string('name', 32);
+            $table->string('patronymic', 32)->nullable();
             $table->timestamps();
         });
     }
