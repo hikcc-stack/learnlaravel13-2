@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // импортируем фасад баз данных
 
 class RequestController extends Controller
 {
+    // 165 Получение данных из моделей Eloquent
+    public function data(){
+        $posts = Post::all();
+
+        foreach ($posts as $post) {
+            dump($post->title);
+            dump($post->text);
+        }
+
+    }
     public function show(){
         // 141. Соединение таблиц Laravel
         $posts = DB::table('posts')

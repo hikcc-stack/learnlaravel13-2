@@ -7,7 +7,11 @@ use App\Http\Controllers\TestController; /* Подключение контро�
 use App\Http\Controllers\RequestController;
 
 
- Route::get('/migration', [RequestController::class, 'show']);
+
+// 165. Получение данных из моделей Eloquent
+Route::get('/migration/data', [RequestController::class, 'data']);
+Route::get('/rarepost/data', [PostController::class, 'data']);
+Route::get('/migration', [RequestController::class, 'show']);
 Route::get('/migrate', function () {
     return view('migrate');
 });

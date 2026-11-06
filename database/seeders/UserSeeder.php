@@ -1,0 +1,71 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {   // Случайный элемент массива в сидере
+        // Создадим массив допустимых значений и возьмем случайный
+        // элемент через array_rand
+        $zones = ['.ru', '.com', '.org'];
+        $zone = $zones[array_rand($zones)];
+        // Цикл на создание 20 записей в базе данных
+        for ($i = 0; $i < 20; $i++) {
+            // генерация рандомных данных с последующим вводом внутрь таблицы
+            Db::table('users')->insert([
+                'name' => Str::random(10) . $zone,
+                // Конкатенация строк - добавляем в конец строки @gmail.com
+                // чтобы проходить валидацию/ для правдоподобного внешнего вида
+                'email' => Str::random(10) . '@gmail.com',
+                'age' => random_int(1, 100),
+                'salary' => random_int(9000,52000),
+                'password' => Hash::make('password'),
+            ]);
+        }
+        Db::table('users')->insert([
+           'name' => Str::random(10),
+           'email' => Str::random(10),
+           'age' => random_int(1, 100),
+           'salary' => random_int(9000,52000),
+            'password' => Hash::make('password'),
+        ]);
+        Db::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10),
+            'age' => random_int(1, 100),
+            'salary' => random_int(9000,52000),
+            'password' => Hash::make('password'),
+        ]);
+        Db::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10),
+            'age' => random_int(1, 100),
+            'salary' => random_int(9000,52000),
+            'password' => Hash::make('password'),
+        ]);
+        Db::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10),
+            'age' => random_int(1, 100),
+            'salary' => random_int(9000,52000),
+            'password' => Hash::make('password'),
+        ]);
+        Db::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10),
+            'age' => random_int(1, 100),
+            'salary' => random_int(9000,52000),
+            'password' => Hash::make('password'),
+        ]);
+    }
+}
