@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             $table->foreignId('category_id');
+            $table->softDeletes();
             /*
             $table->integer('age')
                 ->unsigned()

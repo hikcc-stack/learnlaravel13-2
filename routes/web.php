@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider; /* Глобальное ограничение */
 use App\Http\Controllers\PostController; /* Подключение контроллера */
 use App\Http\Controllers\TestController; /* Подключение контроллера */
 use App\Http\Controllers\RequestController;
+
 
 
 
@@ -16,6 +18,18 @@ Route::get('/migrate', function () {
     return view('migrate');
 });
 // codemu
+//193. Отправка форм методом GET в Laravel
+Route::get('/form', [OrderController::class, 'form']);
+Route::get('/result', [OrderController::class, 'result']);
+
+//189. Жадная загрузка множественных отношений
+Route::get('/order/client/index', [OrderController::class, 'index']);
+// 181. Получение данных связь один ко многим
+Route::get('/order/client', [OrderController::class, 'show']);
+
+//167. передача в представлении
+Route::get('/rarepost/create', [PostController::class, 'create']);
+Route::get('/rarepost/view', [PostController::class, 'view']);
 
 //47-72
 Route::get('/array', [PostController::class, 'showpost']);

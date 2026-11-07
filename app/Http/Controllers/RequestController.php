@@ -310,7 +310,7 @@ class RequestController extends Controller
         */
         //118. Условия where при выборке через QB в Laravel
         $posts = DB::table('posts')->where('likes', '=',200)->get();
-        return view('show', compact('posts'));
+        return view('post.show', compact('posts'));
         //117. Поля выборки в QB в Laravel (select-выцбираем 2 поля - title и text)
         /*
         $posts = DB::table('posts')->select('title','text')->get();

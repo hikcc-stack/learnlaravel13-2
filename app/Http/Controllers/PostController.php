@@ -8,8 +8,65 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+    public function create(){
+        //173. Мягкое удаление
+        $post = Post::find(10);
+        //$post->delete();
+        //Восстановление удаленной записи при помощи метода restore
+        // метод withTrashed - позволяет увидеть и мягко удаленные записи
+        $post = Post::withTrashed()->find(10);
+        $post->restore();
+        // forceDelete - окончательное удаление, позволяет полностью удалить запись из базы данных
+        $post->forceDelete();
+
+
+        // 172. Удаление записей по id в моделях Eloquent
+        // удаление через метод destroy
+        Post::destroy(3);
+        //удаление нескольких записей
+        Post::destroy([4, 5, 6]);
+        //171. удаление записи
+        $post = Post::find(2);
+        //$post->delete();
+        //удаление записи по условию
+        $deletedRows = Post::where('id', '>', 50)->delete();
+        //170.изменение записи
+        $post = Post::find(1);
+        $post->title = 'Новый заголовок';
+        $post->save(); //save- метод сохранения
+        //169 создание записи
+        $post = new Post();
+        $post->title = 'title';
+        $post->text = 'text';
+        $post->slug = 'text';
+        $post->likes = 1111;
+        $post->category_id = 1;
+        $post->save();
+    }
+    public function view(){
+        $posts = Post::find(1);// Получение одной записи
+        //$posts = Post::find([1, 2, 3]);// Получение нескольких записей
+
+        //$posts = Post::where('likes', 6308)->first();
+        return view('post.show',['posts' => $posts]);
+    }
     // 165 Получение данных из моделей Eloquent
     public function data(){
+
+        $posts = Post::where('likes', 3333)->get();
+        dump($posts);
+        // 167. Получение одной записи
+        // отличие от get
+        // если условию подходит несколько строк, get вернет их все,
+        // a first - только первую из результата
+        //$post = Post::where('id', 1)->first();
+
+        //выводим пост где количество лайков - 6308 и id =1, первую запись
+        $post =Post::where('likes', 6308)
+            ->where('id', 1)
+            ->first();
+        dump($post);
+
         // Конструктор запросов в моделях Eloquent
         $posts = Post::where('likes', '>', 3000)->get();
         return $posts;
