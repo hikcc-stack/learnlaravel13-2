@@ -2,12 +2,199 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class PostController extends Controller
 {
+    public function validation(Request $request){
+        $validator = Validator::make($request->all(),[
+            'website' => 'url',
+            'slug' => 'alpha_dash',
+            'email' => 'bail|required|email|unique:users',
+        ]);
+        if($validator->fails()){
+            $res = $validator->errors()->all();
+            echo implode(", ", $res);
+            return;
+        }
+        echo 'Проверка пройдена';
+    }
+    public function sintacsis(Request $request){
+        $data = [
+            'title' => 'title',
+            'age' => 45,
+            'price' => 23500
+        ];
+        $rules = [
+            'title' => 'string|required|min:5|max:500',
+            'age' => 'integer|between:18,100',
+            'price' => 'numeric|between:1,9999',
+            'password' => ['required|min:8','password:letters,numbers'],
+            'code' => 'size:4',
+            'pin' => 'size:6',
+            'name' => 'alpha|required',
+            'login' => 'alpha_num|regex:/^[a-z]+$/',
+            'year' =>  'digits:5',
+            'sms_code' => 'digits:6',
+            'website' => 'url',
+            'note' => 'nullable',
+            'birthday' => 'date',
+            'deadline' => 'after:today',
+            'end_at' => '2025-01-01',
+            'start_at' => 'before:end_at',
+            'status' => 'in:draft,published',
+            'role' => 'in:admin,user',
+            'terms' => 'accepted',
+            'is_active' => 'boolean',
+            'phone' => 'regex:/^\+?[0-9]{10,15}$',
+            'tags' => 'array',
+            'roles' => 'array|max:3',
+            'avatar' => [
+                'image',
+                'mimes:jpg,png',
+                Rule::dimensions([
+                    'max_width' => 500,
+                    'max_height' => 500,
+                ]),
+            ],
+            'doc' => 'file|mimes:pdf',
+            'cover' => Rule::dimensions([
+                'min_width' => 800,
+            ]),
+            'email' => 'unique:users,email',
+            'slug' => 'unique:posts,slug',
+            'category_id' => 'exists:categories,id',
+            'author_id' => 'exists:users,author_id',
+            'company' => 'required_if:type, business',
+            'phonenumber' => 'sometimes|string',
+            'email1' => 'bail|required|email|unique:users',
+            'password1' => 'required|confirmed',
+            'min_price' => 'min:100',
+            'max_price' => 'max:9999',
+        ];
+        // numeric отличается от integer тем, что numeric может проверить является ли значением числом или строкой, представляющей число
+        // Правило пропускает целые числа, числа с плавающей точкой и числа в экспоненциальной записи, но не пропускает строки с буквами или специальными символами.
+        // integer проверяет только числовые значения
+        // Правило работает как со значениями из запроса, так и с массивами данных. При несовпадении типа возвращается ошибка.
+
+        // В отличие от правила required, правило filled проверяет поле
+        // только в том случае, если оно присутствует в запросе. Если поле отсутствует, валидация считается успешной.
+        // Если поле присутствует, оно не должно быть пустым.
+
+    }
+
+    public function formPost(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'title' => 'required',
+                'email' => 'required|email',
+            ]);
+
+            dump($validated);
+        }
+        return view('post.form');
+    }
+
+    public function createUserFillable(Request $request){
+        User::create($request->only('name', 'email', 'age', 'salary', 'password'));
+
+        return 'user created';
+    }
+
+    public function createUser(Request $request){
+        $post = new User();
+        $post->name = $request->input('name');
+        $post->email = $request->input('email');
+        $post->age = $request->input('age');
+        $post->salary = rand(1000,100000);
+        $post->password = $request->input('password');
+        $post->save();
+
+        return ('user created');
+    }
+
+
+    public function store(Request $request){
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->slug = $request->input('slug');
+        $post->text = $request->input('text');
+        $post->likes = 0;
+        $post->category_id = rand(1,10);
+        $post->save();
+
+        return ('post saved');
+    }
+
+    public function form()
+    {
+        return view('post.form');
+    }
+
+    public function test(Request $request, $id, $login){
+
+        $text = $request->input('text');
+        dump($id);
+        dump($login);
+        dump($text);
+    }
+
+
+    public function result(Request $request)
+    {
+        // 196
+        // Данные формы в виде массива в Laravel
+        //по одному полю
+        $title = $request->input('title');
+        $slug  = $request->input('slug');
+        // все поля сразу
+        $data = $request->all();
+
+        $data = $request->only(['name', 'email']);
+        $data = $request->except(['password', 'email', '_token']);
+        // $data['title'], $data['slug']
+
+        $name = $request->input('user.name');
+        $surname = $request->input('user.surname');
+        $email = $request->input('user.email');
+
+        return view('post.form', [
+            //'title' => $title, 'slug' => $slug,
+            'data' => $data,
+
+            'name' => $name,
+            'surname' => $surname,
+            'email' => $email,
+        ]);
+    }
+
+//    public function form(Request $request)
+//    {
+//        if ($request->has('title') && $request->has('slug')) {
+//            dump($request->input('title'));
+//            dump($request->input('slug'));
+//        }
+//        return view('post.form');
+//    }
+
+    public function profile(Request $request)
+    {
+        $name = $request->input('name');
+        $age  = $request->input('age');
+        $salary  = $request->input('salary');
+
+        return view('post.form', [
+            'name' => $name, 'age' => $age, 'salary' => $salary
+        ]);
+    }
+
+
     public function create(){
         //173. Мягкое удаление
         $post = Post::find(10);

@@ -7,8 +7,22 @@ use App\Http\Controllers\PostController; /* Подключение контро�
 use App\Http\Controllers\TestController; /* Подключение контроллера */
 use App\Http\Controllers\RequestController;
 
-
-
+//216
+Route::match(['get', 'post'], '/validation', [PostController::class, 'validation']);
+//202
+Route::match(['get', 'post'], '/formPost', [PostController::class, 'formPost']);
+//201
+ROUTE::post('/store', [PostController::class, 'store']);
+ROUTE::post('/createUser', [PostController::class, 'createUser']);
+ROUTE::post('/createUserFillable', [PostController::class, 'createUserFillable']);
+// 200
+ROUTE::get('/result', [PostController::class, 'form']);
+ROUTE::post('/result/{id}/{login}', [PostController::class, 'test']);
+// 195
+Route::match(['get', 'post'], '/result', [PostController::class, 'form']);
+// 194
+Route::post('/result', [PostController::class, 'result']);
+Route::post('/result/profile', [PostController::class, 'profile']);
 
 // 165. Получение данных из моделей Eloquent
 Route::get('/migration/data', [RequestController::class, 'data']);
